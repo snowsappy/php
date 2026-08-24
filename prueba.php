@@ -9,7 +9,7 @@ function agregar_empleado(int $p_cedula,array &$empleados,array $p_empleado_espe
 	$empleados[] = ["cedula"=>$p_cedula,"nombre" => $p_nombre, "especialidad" => $p_empleado_especialidad];
 
 }
-
+agendar_cita (int $codigo_emeplado){}
 function recorrer (array $empleados ,string $p_tipo_especialidad){
        echo "empleados especializados en esta especialidad";
        $empleado_lista=[];
@@ -22,10 +22,10 @@ function recorrer (array $empleados ,string $p_tipo_especialidad){
 					echo $cont ." \n  nombre: " .$item["nombre"] ."\n";
 					$p=array_column($empleados,"cedula");
 					$posicion=array_search($emple,$empleados);
-					$empleado_lista=array_push($empleados,"cedula");
+					$empleado_lista[]= $item["cedula"];
+            
 			}      }
-	}
-	return $empleado_lista;
+	}	return $empleado_lista;
 
 }
 
@@ -100,38 +100,45 @@ while (true){
 						switch($tipo_especialidad){
                                                         case 1:
                                                                 $tipo_especialidad="manicurista";
-                                                                recorrer($empleados,$tipo_especialidad);
+                                                                $lista_empleado=recorrer($empleados,$tipo_especialidad);
                                                                 break;
                                                         case 2:
                                                                 $tipo_especialidad="esteticista(limpiadora facial)";
-								recorrer($empleados,$tipo_especialidad);
+								$lista_empleado=recorrer($empleados,$tipo_especialidad);
                                                                 break;
                                                         case 3:
 
                                                                 $tipo_especialidad="pedicurista";
-								recorrer($empleados,$tipo_especialidad);
+								$lista_empleado=recorrer($empleados,$tipo_especialidad);
                                                                 break;
                                                         case 4:
                                                                 $tipo_especialidad="masajista";
-								recorrer($empleados,$tipo_especialidad);
+								$lista_empleado=recorrer($empleados,$tipo_especialidad);
                                                                 break;
                                                         case 5:
                                                                 $tipo_especialidad="masoterapeuta";
-								recorrer($empleados,$tipo_especialidad);
+								$lista_empleado=recorrer($empleados,$tipo_especialidad);
                                                                 break;
                                                         case 6:
                                                                 $tipo_especialidad="Esteticista corporal";
-								recorrer($empleados,$tipo_especialidad);
+								$lista_empleado=recorrer($empleados,$tipo_especialidad);
                                                                 break;
                                                         case 7:
                                                                 $tipo_especialidad="cosmetóloga";
-								recorrer($empleados,$tipo_especialidad);
+								$lista_empleado=recorrer($empleados,$tipo_especialidad);
                                                                 break;
 						
                                                 }
-						$selecionar_empleado=readline(" \n ingrese el empleado de la lista: ");
-						$buscar=$empleado_lista[$selecionar_empleado -1];
-						echo "empleado buscado ".$buscar;		
+						$selecionar_empleado=readline(" \n ingrese el empleado a asignar de la lista: ");
+
+						$buscar = array_search($selecionar_empleado, $lista_empleado);
+						echo "empleado seleccionado" .$buscar;
+						
+						if ($buscar == false) {
+    						
+						
+    							echo "\n ese empleado no pertenece a la especialidad seleccionada\n";
+						}		
 						if($opcion=="si"){
 							
 						}else if($opcion=="no"){
@@ -139,10 +146,20 @@ while (true){
 							
 						}else{
 						        
-							}
+						}
+						$dia=readline("ingrese el dia de la semana en que desea la cita: ")
+						if ($dia=="domingo"){
+							echo "ese dia no esta disponible";
+						} 
+						$cita=readline("ingrese la hora de la cita en formato(HH:MM): ");
+						if ($cita <="07:00" && $cita =>"18:00"){
+								echo "cita invalida
+						}
+						$agendamiento_cita[]=
 					}
 				}
 			}
+			
 			break;
 		case 3:
 			break;
