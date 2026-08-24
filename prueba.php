@@ -1,10 +1,10 @@
 <?php
-
+$lista_Empleados=[];
 $empleado_especialidad=[];
 $empleados=[];
 $clientes=[["codigo"=>"","nombre"=>""]];
 $agendamiento_cita=[["codigo_empleado"=>"","codigo_cliente"=>"","especialidad"=>"","hora"=>"","dia"=>""]];
-function agregarempleado(int $p_cedula,array &$empleados,array $p_empleado_especialidad,string $p_nombre){
+function agregar_empleado(int $p_cedula,array &$empleados,array $p_empleado_especialidad,string $p_nombre){
 
 	$empleados[] = ["cedula"=>$p_cedula,"nombre" => $p_nombre, "especialidad" => $p_empleado_especialidad];
 
@@ -12,17 +12,23 @@ function agregarempleado(int $p_cedula,array &$empleados,array $p_empleado_espec
 
 function recorrer (array $empleados ,string $p_tipo_especialidad){
        echo "empleados especializados en esta especialidad";
+       $empleado_lista=[];
+       $cont=0;
        foreach ($empleados as $item){
 			$lista=$item["especialidad"];
 			foreach ($lista as $emple){
-
+ 				$cont=$cont+1;
 				if ($p_tipo_especialidad==$emple){
-					echo " \n nombre: " .$item["nombre"] ."\n";
+					echo $cont ." \n  nombre: " .$item["nombre"] ."\n";
 					$p=array_column($empleados,"cedula");
 					$posicion=array_search($emple,$empleados);
+					$empleado_lista=array_push($empleados,"cedula");
 			}      }
-	}		
+	}
+	return $empleado_lista;
+
 }
+
 while (true){
 
 	$opcion=readline("bienvenido a ADSO SPA\n 1. Registrar empleado \n 2. Registrar cita \n 3. Total facturado por empleado \n 4. Servicio más solicitado \n 5. Agenda de un día 
@@ -66,20 +72,18 @@ while (true){
 								$especialidad="cosmetóloga";
 								break;
 						}
-						$empleado_especialidad[]=$especialidad;
 						
+						$empleado_especialidad[]=$especialidad;
+					
 						echo "desea agregar otra especialidad";
 						$especialidad=readline();
 						if($especialidad=="no"){
-							agregarempleado($cedula,$empleados,$empleado_especialidad,$nombre);
-							
-							$especialidad=[];
+							agregar_empleado($cedula,$empleados,$empleado_especialidad,$nombre);
+							$empleado_especialidad=[];
 							print_r($empleados);
 							break;
-
+				        }	
 						}
-						
-					}
 				}
 			}
 			break;
@@ -92,7 +96,7 @@ while (true){
 				}else{
 					$cedula=readline("digite la cedula del cliente a registrar: ");
 					while (true){
-						$tipo_especialidad=readline("\n especialidades disponibles \n 1. \n 2. \n 3. \n 4. \n 5. \n 6. \n 7. \n ");
+						$tipo_especialidad=readline("\n especialidades disponibles \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5. masoterapeuta \n 6.steticista corporal  \n 7.cosmetóloga \n> ");
 						switch($tipo_especialidad){
                                                         case 1:
                                                                 $tipo_especialidad="manicurista";
@@ -125,11 +129,14 @@ while (true){
                                                                 break;
 						
                                                 }
-						$opcion==readline("desea agendar otro servicio? :")
+						$selecionar_empleado=readline(" \n ingrese el empleado de la lista: ");
+						$buscar=$empleado_lista[$selecionar_empleado -1];
+						echo "empleado buscado ".$buscar;		
 						if($opcion=="si"){
-					
+							
 						}else if($opcion=="no"){
 							break;
+							
 						}else{
 						        
 							}
