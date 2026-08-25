@@ -9,9 +9,13 @@ function agregar_empleado(int $p_cedula,array &$empleados,array $p_empleado_espe
 	$empleados[] = ["cedula"=>$p_cedula,"nombre" => $p_nombre, "especialidad" => $p_empleado_especialidad];
 
 }
-agendar_cita (int $codigo_emeplado){}
+function agendar_cita (array &$agendamiento_cita,int $p_codigo_empleado,int $p_codigo_cliente,string $p_especialidad,string $p_dia,string $p_hora){
+
+	$agendamiento_cita[]=["codigo_empleado"=>$p_codigo_empleado,"codigo_cliente"=>$p_codigo_cliente,"servicios"=>$p_especialidad,"dia"=>$p_hora,"hora"=>$p_dia];
+
+}
 function recorrer (array $empleados ,string $p_tipo_especialidad){
-       echo "empleados especializados en esta especialidad";
+       echo "empleados especializados en esta especialidad \n ";
        $empleado_lista=[];
        $cont=0;
        foreach ($empleados as $item){
@@ -25,6 +29,7 @@ function recorrer (array $empleados ,string $p_tipo_especialidad){
 					$empleado_lista[]= $item["cedula"];
             
 			}      }
+		print_r($empleado_lista);
 	}	return $empleado_lista;
 
 }
@@ -74,7 +79,7 @@ while (true){
 						}
 						
 						$empleado_especialidad[]=$especialidad;
-					
+					      
 						echo "desea agregar otra especialidad";
 						$especialidad=readline();
 						if($especialidad=="no"){
@@ -89,14 +94,17 @@ while (true){
 			break;
 		case 2:
 			while (true){
-				echo "REGISTRO DE CITAS";
+				echo "REGISTRO DE CITAS \n";
+				$emple_temporal=[];
+				$servicio_temporal=[];
+				$hora_temporal=[];
 				$cliente=readline("digite el nombre de cliente que desea registrar:(x para salir) ");
 				if ($cliente=="x" || trim($cliente) == ''){
 					break;
 				}else{
 					$cedula=readline("digite la cedula del cliente a registrar: ");
 					while (true){
-						$tipo_especialidad=readline("\n especialidades disponibles \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5. masoterapeuta \n 6.steticista corporal  \n 7.cosmetóloga \n> ");
+						$tipo_especialidad=readline("\n especialidades disponibles \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5. masoterapeuta \n 6.steticista corporal  \n 7.cosmetóloga \ 8.salir \n> ");
 						switch($tipo_especialidad){
                                                         case 1:
                                                                 $tipo_especialidad="manicurista";
@@ -129,34 +137,51 @@ while (true){
                                                                 break;
 						
                                                 }
-						$selecionar_empleado=readline(" \n ingrese el empleado a asignar de la lista: ");
+						if ($tipo_especialidad==8){
+							
+							break;
 
-						$buscar = array_search($selecionar_empleado, $lista_empleado);
-						echo "empleado seleccionado" .$buscar;
+						}
+							while (true){
+								$seleccionar_empleado=readline(" \n ingrese el empleado a asignar de la lista: \n ");
+								$conversion=$seleccionar_empleado - 1;
+								$buscar = $lista_empleado[$conversion];
+
 						
-						if ($buscar == false) {
+						
+								if ($buscar == false) {
     						
 						
-    							echo "\n ese empleado no pertenece a la especialidad seleccionada\n";
-						}		
-						if($opcion=="si"){
+    									echo "\n ese empleado no pertenece a la especialidad seleccionada\n";
+								}
+							}
+						
+						
+						
+						
 							
-						}else if($opcion=="no"){
-							break;
-							
-						}else{
+					
 						        
 						}
-						$dia=readline("ingrese el dia de la semana en que desea la cita: ")
+						$dia=readline("ingrese el dia de la semana en que desea la cita: ");
 						if ($dia=="domingo"){
 							echo "ese dia no esta disponible";
-						} 
-						$cita=readline("ingrese la hora de la cita en formato(HH:MM): ");
-						if ($cita <="07:00" && $cita =>"18:00"){
-								echo "cita invalida
 						}
-						$agendamiento_cita[]=
+						while (true){
+							$hora=readline("ingrese la hora de la cita en formato(HH:MM): ");
+							if ($hora <="07:00" && $hora >="18:00"){
+								echo "cita invalida";
+							}else{
+								break;
+							}
+						}
+						$servicio_temporal[]=$tipo_especialidad;
+						$emple_temporal[]=$buscar;
+						$dia_temporal[]=$dia;
+						$hora_temporal[]=$hora;
+						
 					}
+				 agendar_cita($agendamiento_cita,$cliente,$emple_temporal,$servicio_temporal,$dia_temporal,$hora_temporal);
 				}
 			}
 			
@@ -164,8 +189,8 @@ while (true){
 		case 3:
 			break;
 		case 4:
-		
-			
+	
+	
 	}
 	if ($opcion==8){
 		break;
