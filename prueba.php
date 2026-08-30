@@ -157,8 +157,11 @@ function ver_citas_por_dia(array &$empleados, array &$clientes,array $agendamien
     }
 }
 while (true){
-    $opcion = readline("bienvenido a ADSO SPA\n 1. registrar empleado \n 2. registrar cita \n 3. total facturado por empleado \n 4. servicio más solicitado \n 5. agenda de un día \n 6. deteccion de conflictos \n 7. Liquidacion de comisiones \n 8. Salir \n> ");
-    
+    $opcion =trim( readline("bienvenido a ADSO SPA\n 1. registrar empleado \n 2. registrar cita \n 3. total facturado por empleado \n 4. servicio más solicitado \n 5. agenda de un día \n 6. deteccion de conflictos \n 7. Liquidacion de comisiones \n 8. Salir \n> "));
+    if(empty($opcion)){ 
+        echo " \n por davor ingrese algo";
+        continue ;
+    }
     switch($opcion){
         
         case "dp":
@@ -175,18 +178,29 @@ while (true){
             while (true){
                 $empleado_especialidad=[];
                 echo "\nbienvenido al registro de empleado\n";
-                $nombre=readline("ingrese el nombre del empleado a registrar (x para salir): ");
-                
+                $nombre=trim(readline("ingrese el nombre del empleado a registrar (x para salir): "));
+                if(empty($nombre)){ 
+        echo " \n por davor ingrese algo";
+        continue ;
+                }
                 if($nombre=="x"){
                     break;
                 } else {
-                    $cedula=(int)readline("ingrese la cedula del empleado a registrar: ");
+                    $cedula=trim((int)readline("ingrese la cedula del empleado a registrar: "));
+
+                    if(empty($cedula)){ 
+        echo " \n por davor ingrese algo";
+        continue ;
+    }
                     print("Aqui va el registro \n");
                     
                     while (true){
                         echo "Digite la especialidad del empleado \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5.masoterapeuta \n 6.Esteticista corporal \n 7.cosmetóloga \n> ";
-                        $opcio=readline();
-                        
+                        $opcion=trim(readline());
+                        if (empty($opcion){
+                            echo "no puede dejar espacios en blanco ";
+                            continue;
+                        }
                         switch($opcion){
                             case 1: $especialidad_elegida="manicurista"; break 2;
                             case 2: $especialidad_elegida="esteticista(limpiadora facial)"; break 2;
@@ -199,13 +213,22 @@ while (true){
                             
                         }
                         
-                        if(!empty($especialidad_elegida)){
+                        
                             $empleado_especialidad[]=$especialidad_elegida;
                         
                             
+                        
+                        while (true) {
+                          $mas=trim(readline("¿Desea agregar otra especialidad? (si/no): "));
+                          if(empty($mas)){
+                              echo "no puede dejar espacios en blanco ";
+                              continue;
+                          }else{
+                              break;
+                          }
                         }
-                            
-                        $mas=readline("¿Desea agregar otra especialidad? (si/no): ");
+                     
+            }
                         if($mas=="no"){
                             agregar_empleado($cedula, $empleados, $empleado_especialidad, $nombre, $empleado_precio ?? []);
                             print_r($empleados);
