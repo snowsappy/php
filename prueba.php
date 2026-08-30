@@ -5,9 +5,9 @@ $empleado_especialidad=[];
 $empleados=[];
 $clientes=[["codigo"=>"","nombre"=>""]];
 $agendamiento_cita=[["codigo_empleado"=>"","codigo_cliente"=>"","especialidad"=>"","hora"=>"","dia"=>""]];
-
-function registrar_datos(){
-    global $empleados, $clientes, $agendamiento_cita;
+$esactivo=false;
+function registrar_datos(array &$empleados ,array &$clientes ,array &$agendamiento_cita){
+    
     $empleados=[
         ["cedula"=>1001,"nombre"=>"Ana","especialidad"=>["manicurista","esteticista(limpiadora facial)","masajista"],"precio"=>[30000,45000,50000]],
         ["cedula"=>1002,"nombre"=>"Juan","especialidad"=>["masoterapeuta","fisioterapeuta"],"precio"=>[60000,70000]],
@@ -46,8 +46,8 @@ function registrar_datos(){
     ];
 }
 
-function generar_total_empleado(){
-    global $empleados, $agendamiento_cita;
+function generar_total_empleado(array &$empleados,array &$agendamiento_cita){
+    
     foreach($empleados as $empleado){
         $total=0;
         foreach($agendamiento_cita as $cita){
@@ -72,16 +72,11 @@ function agregar_empleado(int $p_cedula, array &$empleados, array $p_empleado_es
 }
 
 function agendar_cita(array &$agendamiento_cita, int $p_codigo_empleado, int $p_codigo_cliente, string $p_especialidad, string $p_dia, string $p_hora){
-    $agendamiento_cita[]=[
-        "codigo_empleado"=>[$p_codigo_empleado],
-        "codigo_cliente"=>$p_codigo_cliente,
-        "especialidad"=>[$p_especialidad],
-        "dia"=>[$p_dia],
-        "hora"=>[$p_hora]
+    $agendamiento_cita[]=["codigo_empleado"=>[$p_codigo_empleado],"codigo_cliente"=>$p_codigo_cliente,"especialidad"=>[$p_especialidad],"dia"=>[$p_dia],"hora"=>[$p_hora]
     ];
 }
 
-function recorrer(array $empleados, string $p_tipo_especialidad){
+function recorrer(array &$empleados, string $p_tipo_especialidad){
     echo "Empleados especializados en esta especialidad: \n";
     $empleado_lista=[];
     $cont=0;
@@ -98,9 +93,9 @@ function recorrer(array $empleados, string $p_tipo_especialidad){
     return $empleado_lista;
 }
 
-function ver_citas_por_dia(array $agendamiento_cita, string $p_dia){
-    global $empleados, $clientes;
-    echo "\nCitas del dia: ".$p_dia."\n";
+function ver_citas_por_dia(array &$empleados, array &$clientes,array $agendamiento_cita, string $p_dia){
+    
+    echo "\ncitas del dia: " .$p_dia."\n";
     $cont=0;
     foreach($agendamiento_cita as $cita){
         if(isset($cita["dia"])) {
@@ -108,17 +103,15 @@ function ver_citas_por_dia(array $agendamiento_cita, string $p_dia){
                 if($dia==$p_dia){
                     $cont++;
                     
-                    // Buscar nombre del cliente
-                    $nombre_cliente = "N/A";
+                    
+                    $nombre_cliente = "";
                     foreach($clientes as $cliente){
                         if($cliente["codigo"] == $cita["codigo_cliente"]){
                             $nombre_cliente = $cliente["nombre"];
                             break;
                         }
                     }
-                    
-                    // Buscar nombre del empleado
-                    $nombre_empleado = "N/A";
+                    $nombre_empleado = "";
                     foreach($empleados as $empleado){
                         if($empleado["cedula"] == $cita["codigo_empleado"][$posicion]){
                             $nombre_empleado = $empleado["nombre"];
@@ -126,54 +119,61 @@ function ver_citas_por_dia(array $agendamiento_cita, string $p_dia){
                         }
                     }
                     
-                    echo "\ncita ".$cont;
-                    echo "\ncliente: ".$nombre_cliente;
-                    echo "\nempleado: ".$nombre_empleado;
-                    echo "\nespecialidad: ".$cita["especialidad"][$posicion];
-                    echo "\nhora: ".$cita["hora"][$posicion]."\n";
+                    
+                    echo "\ncliente: " .$nombre_cliente;
+                    echo "\nempleado: " .$nombre_empleado;
+                    echo "\nespecialidad: " .$cita["especialidad"][$posicion];
+                    echo "\nhora: " .$cita["hora"][$posicion]."\n";
                 }
             }
         }
     }
     if($cont==0){
-        echo "\nNo hay citas agendadas para este dia.\n";
+        echo "\nno hay citas agendadas para este dia.\n";
     }
 }
 
 while (true){
-    $opcion = readline("Bienvenido a ADSO SPA\n 1. Registrar empleado \n 2. Registrar cita \n 3. Total facturado por empleado \n 4. Servicio más solicitado \n 5. Agenda de un día \n 6. Deteccion de conflictos \n 7. Liquidacion de comisiones \n 8. Salir \n> ");
+    $opcion = readline("bienvenido a ADSO SPA\n 1. registrar empleado \n 2. registrar cita \n 3. total facturado por empleado \n 4. servicio más solicitado \n 5. agenda de un día \n 6. deteccion de conflictos \n 7. Liquidacion de comisiones \n 8. Salir \n> ");
     
     switch($opcion){
+        
         case "dp":
-            registrar_datos();
-            echo "Datos cargados correctamente\n";
+            if($esactivo){
+            echo "los datos ya se cargaron";
+            break;
+            }
+            registrar_datos($empleados, $clientes, $agendamiento_cita);
+            echo "datos cargados correctamente\n";
+            $esactivo=true;
             break;
             
         case 1:
             while (true){
                 $empleado_especialidad=[];
-                echo "\nBienvenido al registro de empleado\n";
-                $nombre=readline("Ingrese el nombre del empleado a registrar (x para salir): ");
+                echo "\nbienvenido al registro de empleado\n";
+                $nombre=readline("ingrese el nombre del empleado a registrar (x para salir): ");
                 
                 if($nombre=="x"){
                     break;
                 } else {
-                    $cedula=(int)readline("Ingrese la cedula del empleado a registrar: ");
+                    $cedula=(int)readline("ingrese la cedula del empleado a registrar: ");
                     print("Aqui va el registro \n");
                     
                     while (true){
                         echo "Digite la especialidad del empleado \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5.masoterapeuta \n 6.Esteticista corporal \n 7.cosmetóloga \n> ";
-                        $op_esp=readline();
+                        $opcio=readline();
                         
-                        switch($op_esp){
-                            case 1: $especialidad_elegida="manicurista"; break;
-                            case 2: $especialidad_elegida="esteticista(limpiadora facial)"; break;
-                            case 3: $especialidad_elegida="pedicurista"; break;
-                            case 4: $especialidad_elegida="masajista"; break;
-                            case 5: $especialidad_elegida="masoterapeuta"; break;
-                            case 6: $especialidad_elegida="Esteticista corporal"; break;
-                            case 7: $especialidad_elegida="cosmetóloga"; break;
-                            default: $especialidad_elegida=""; break;
+                        switch($opcion){
+                            case 1: $especialidad_elegida="manicurista"; break 2;
+                            case 2: $especialidad_elegida="esteticista(limpiadora facial)"; break 2;
+                            case 3: $especialidad_elegida="pedicurista"; break 2;
+                            
+                            case 4: $especialidad_elegida="masajista"; break 2;
+                            case 5: $especialidad_elegida="masoterapeuta"; break 2;
+                            case 6: $especialidad_elegida="Esteticista corporal"; break 2;
+                            case 7: $especialidad_elegida="cosmetóloga"; break 2;
+                            
                         }
                         
                         if(!empty($especialidad_elegida)){
@@ -197,7 +197,7 @@ while (true){
             while (true){
                 echo "\nREGISTRO DE CITAS \n";
                 $cliente=readline("Digite el nombre del cliente que desea registrar (x para salir): ");
-                if ($cliente=="x" || trim($cliente) == ''){
+                if ($cliente=="x" ){
                     break;
                 } else {
                     $cedula_cliente=readline("Digite la cedula del cliente a registrar: ");
@@ -205,9 +205,9 @@ while (true){
                     $lista_empleado = [];
                     
                     while (true){
-                        $tipo_esp_opcion=readline("\nServicios disponibles \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5.masoterapeuta \n 6.Esteticista corporal \n 7.cosmetóloga \n 8.Salir \n> ");
+                        $opcion=readline("\nServicios disponibles \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5.masoterapeuta \n 6.Esteticista corporal \n 7.cosmetóloga \n 8.Salir \n> ");
                         
-                        switch($tipo_esp_opcion){
+                        switch($opcion){
                             case 1:
                                 $tipo_especialidad="manicurista";
                                 $lista_empleado=recorrer($empleados,$tipo_especialidad);
@@ -240,48 +240,48 @@ while (true){
                                 break 3;
                             default:
                                 echo "Opcion invalida\n";
-                                continue 2;
+                                continue;
                         }
                         
                         if (!empty($lista_empleado)){
-                            $seleccionado_empleado=readline("Ingrese el número del empleado a asignar de la lista: ");
+                            $seleccionado_empleado=readline("ingrese el número del empleado a asignar de la lista: ");
                             $conversion=$seleccionado_empleado - 1;
                             
                             if(isset($lista_empleado[$conversion])){
                                 $es_empleado =$lista_empleado[$conversion];
-                                echo "\nEmpleado seleccionado cédula: ".$es_empleado."\n";
+                                echo "\nempleado seleccionado cédula: ".$es_empleado."\n";
                                 break;
                             } else {
-                                echo "Opción inválida\n";
+                                echo "ipción inválida\n";
                             }
                         } else {
-                            echo "\nNo hay empleados asignados a este servicio\n";
+                            echo "\nno hay empleados asignados a este servicio\n";
                             break 2;
                         }
                     }
                     
                     while(true){
-                        $dia=readline("Ingrese el dia de la semana en que desea la cita: ");
+                        $dia=readline("ingrese el dia de la semana en que desea la cita: ");
                         if (in_array($dia,$semana)){
                             break;
                         } elseif ($dia=="domingo"){
                             echo "Los domingos no trabajamos\n";
                         } else {
-                            echo "Día inexistente\n";
+                            echo "día inexistente\n";
                         }
                     }
                     
                     while (true){
-                        $hora=readline("Ingrese la hora de la cita en formato (HH:MM): ");
+                        $hora=readline("ingrese la hora de la cita en formato (HH:MM): ");
                         if ($hora < "07:00" || $hora > "18:00"){
-                            echo "Hora inválida (fuera de rango)\n";
+                            echo "el spa esta cerrado ah esa hora\n";
                         } else {
                             break;
                         }
                     }
                     
-                    agendar_cita($agendamiento_cita, (int)$es_empleado, (int)$cedula_cliente, $tipo_especialidad, $dia, $hora);
-                    echo "Cita agendada con éxito:\n";
+                    agendar_cita($agendamiento_cita, $es_empleado, $cedula_cliente, $tipo_especialidad, $dia, $hora);
+                    echo "cita agendada con éxito:\n";
                     print_r($agendamiento_cita);
                     break;
                 }
@@ -289,25 +289,25 @@ while (true){
             break;
             
         case 3:
-            generar_total_empleado();
+            generar_total_empleado($empleados);
             break;
             
         case 5:
             while(true){
-                $dia=readline("\nIngrese el dia para ver las citas (x para salir): ");
+                $dia=readline("\ningrese el dia para ver las citas (x para salir): ");
                 if($dia=="x"){
                     break;
                 } else if(in_array($dia,$semana)){
                     ver_citas_por_dia($agendamiento_cita,$dia);
                 } else {
-                    echo "Día inválido\n";
+                    echo "fía inválido\n";
                 }
             }
             break;
             
         case 8:
             echo "Saliendo del sistema...\n";
-            break 2;
+            break ;
     }
 }
 ?>
