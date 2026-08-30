@@ -1,6 +1,5 @@
 <?php
 $semana = ["lunes","martes","miercoles","jueves","viernes","sabado"];
-$lista_Empleados=[];
 $empleado_especialidad=[];
 $empleados=[];
 $clientes=[["codigo"=>"","nombre"=>""]];
@@ -9,14 +8,14 @@ $esactivo=false;
 function registrar_datos(array &$empleados ,array &$clientes ,array &$agendamiento_cita){
     
     $empleados=[
-        ["cedula"=>1001,"nombre"=>"Ana","especialidad"=>["manicurista","esteticista(limpiadora facial)","masajista"],"precio"=>[30000,45000,50000]],
-        ["cedula"=>1002,"nombre"=>"Juan","especialidad"=>["masoterapeuta","fisioterapeuta"],"precio"=>[60000,70000]],
-        ["cedula"=>1003,"nombre"=>"Sofia","especialidad"=>["esteticista(limpiadora facial)","cosmetóloga"],"precio"=>[45000,65000]],
-        ["cedula"=>1004,"nombre"=>"Pedro","especialidad"=>["pedicurista","masajista"],"precio"=>[40000,50000]],
-        ["cedula"=>1005,"nombre"=>"Camila","especialidad"=>["manicurista","masoterapeuta"],"precio"=>[30000,60000]],
-        ["cedula"=>1006,"nombre"=>"Carlos","especialidad"=>["esteticista(limpiadora facial)","masajista","cosmetóloga"],"precio"=>[45000,50000,65000]],
-        ["cedula"=>1007,"nombre"=>"Laura","especialidad"=>["pedicurista","esteticista(limpiadora facial)"],"precio"=>[40000,45000]],
-        ["cedula"=>1008,"nombre"=>"Daniel","especialidad"=>["masoterapeuta","masajista","fisioterapeuta"],"precio"=>[60000,50000,70000]]
+        ["cedula"=>1001,"nombre"=>"Ana","especialidad"=>["manicurista","esteticista(limpiadora facial)","masajista"]],
+        ["cedula"=>1002,"nombre"=>"Juan","especialidad"=>["masoterapeuta","fisioterapeuta"]],
+        ["cedula"=>1003,"nombre"=>"Sofia","especialidad"=>["esteticista(limpiadora facial)","cosmetóloga"]],
+        ["cedula"=>1004,"nombre"=>"Pedro","especialidad"=>["pedicurista","masajista"]],
+        ["cedula"=>1005,"nombre"=>"Camila","especialidad"=>["manicurista","masoterapeuta"]],
+        ["cedula"=>1006,"nombre"=>"Carlos","especialidad"=>["esteticista(limpiadora facial)","masajista","cosmetóloga"]],
+        ["cedula"=>1007,"nombre"=>"Laura","especialidad"=>["pedicurista","esteticista(limpiadora facial)"]],
+        ["cedula"=>1008,"nombre"=>"Daniel","especialidad"=>["masoterapeuta","masajista","esteticista corporal"]]
     ];
 
     $clientes=[
@@ -27,22 +26,19 @@ function registrar_datos(array &$empleados ,array &$clientes ,array &$agendamien
         ["codigo"=>5,"nombre"=>"Isabella"],
         ["codigo"=>6,"nombre"=>"Miguel"],
         ["codigo"=>7,"nombre"=>"Daniela"],
-        ["codigo"=>8,"nombre"=>"Jorge"],
-        ["codigo"=>9,"nombre"=>"Carolina"],
-        ["codigo"=>10,"nombre"=>"Santiago"]
+        ["codigo"=>8,"nombre"=>"Jorge"]
+        
     ];
 
     $agendamiento_cita=[
-        ["codigo_empleado"=>[1001,1002,1004],"codigo_cliente"=>1,"especialidad"=>["manicurista","masoterapeuta","pedicurista"],"hora"=>["08:00","09:00","11:00"],"dia"=>["lunes","lunes","martes"]],
-        ["codigo_empleado"=>[1003,1006],"codigo_cliente"=>2,"especialidad"=>["esteticista(limpiadora facial)","masajista"],"hora"=>["10:00","14:00"],"dia"=>["lunes","miercoles"]],
-        ["codigo_empleado"=>[1005],"codigo_cliente"=>3,"especialidad"=>["manicurista"],"hora"=>["09:00"],"dia"=>["martes"]],
-        ["codigo_empleado"=>[1008,1002],"codigo_cliente"=>4,"especialidad"=>["fisioterapeuta","masoterapeuta"],"hora"=>["08:00","10:00"],"dia"=>["miercoles","miercoles"]],
-        ["codigo_empleado"=>[1007,1003,1006],"codigo_cliente"=>5,"especialidad"=>["pedicurista","cosmetóloga","esteticista(limpiadora facial)"],"hora"=>["09:00","11:00","15:00"],"dia"=>["jueves","jueves","viernes"]],
-        ["codigo_empleado"=>[1004,1001],"codigo_cliente"=>6,"especialidad"=>["masajista","esteticista(limpiadora facial)"],"hora"=>["08:00","10:00"],"dia"=>["viernes","viernes"]],
-        ["codigo_empleado"=>[1005,1008],"codigo_cliente"=>7,"especialidad"=>["masoterapeuta","masajista"],"hora"=>["09:00","11:00"],"dia"=>["sabado","sabado"]],
-        ["codigo_empleado"=>[1007],"codigo_cliente"=>8,"especialidad"=>["esteticista(limpiadora facial)"],"hora"=>["14:00"],"dia"=>["lunes"]],
-        ["codigo_empleado"=>[1003,1004],"codigo_cliente"=>9,"especialidad"=>["cosmetóloga","pedicurista"],"hora"=>["10:00","12:00"],"dia"=>["martes","martes"]],
-        ["codigo_empleado"=>[1006,1002,1008],"codigo_cliente"=>10,"especialidad"=>["cosmetóloga","fisioterapeuta","masoterapeuta"],"hora"=>["08:00","10:00","14:00"],"dia"=>["miercoles","jueves","jueves"]]
+        ["codigo_empleado"=>[1001,1002,1004],"codigo_cliente"=>1,"especialidad"=>["manicurista","masoterapeuta","pedicurista"],"hora"=>["08:00","09:00","11:00"],"dia"=>["lunes","lunes","martes"],"precio"=>[35000,100000,40000]],
+        ["codigo_empleado"=>[1003,1006],"codigo_cliente"=>2,"especialidad"=>["esteticista(limpiadora facial)","masajista"],"hora"=>["10:00","14:00"],"dia"=>["lunes","miercoles"],"precio"=>[80000,90000]],
+        ["codigo_empleado"=>[1005],"codigo_cliente"=>3,"especialidad"=>["manicurista"],"hora"=>["09:00"],"dia"=>["martes"],"precio"=>[35000]],
+        ["codigo_empleado"=>[1008,1002],"codigo_cliente"=>4,"especialidad"=>["esteticista corporal","masoterapeuta"],"hora"=>["08:00","10:00"],"dia"=>["miercoles","miercoles"],"precio"=>[70000,100000]],
+        ["codigo_empleado"=>[1007,1003,1006],"codigo_cliente"=>5,"especialidad"=>["pedicurista","cosmetóloga","esteticista(limpiadora facial)"],"hora"=>["09:00","11:00","15:00"],"dia"=>["jueves","jueves","viernes"],"precio"=>[40000,120000,80000]],
+        ["codigo_empleado"=>[1004,1001],"codigo_cliente"=>6,"especialidad"=>["masajista","esteticista(limpiadora facial)"],"hora"=>["08:00","10:00"],"dia"=>["viernes","viernes"],"precio"=>[90000,80000]],
+        ["codigo_empleado"=>[1005,1008],"codigo_cliente"=>7,"especialidad"=>["masoterapeuta","masajista"],"hora"=>["09:00","11:00"],"dia"=>["sabado","sabado"],"precio"=>[100000,90000]],
+        ["codigo_empleado"=>[1007],"codigo_cliente"=>8,"especialidad"=>["esteticista(limpiadora facial)"],"hora"=>["14:00"],"dia"=>["lunes"],"precio"=>[80000]]
     ];
 }
 
@@ -71,9 +67,8 @@ function agregar_empleado(int $p_cedula, array &$empleados, array $p_empleado_es
     $empleados[] = ["cedula"=>$p_cedula,"nombre" => $p_nombre, "especialidad" => $p_empleado_especialidad, "precio" => $p_precios];
 }
 
-function agendar_cita(array &$agendamiento_cita, int $p_codigo_empleado, int $p_codigo_cliente, string $p_especialidad, string $p_dia, string $p_hora){
-    $agendamiento_cita[]=["codigo_empleado"=>[$p_codigo_empleado],"codigo_cliente"=>$p_codigo_cliente,"especialidad"=>[$p_especialidad],"dia"=>[$p_dia],"hora"=>[$p_hora]
-    ];
+function agendar_cita(array &$agendamiento_cita, int $p_codigo_empleado, int $p_codigo_cliente, string $p_especialidad, string $p_dia, string $p_hora, int $p_precio){
+    $agendamiento_cita[]=["codigo_empleado"=>$p_codigo_empleado,"codigo_cliente"=>$p_codigo_cliente,"especialidad"=>$p_especialidad,"dia"=>$p_dia,"hora"=>$p_hora,"precio"=>$p_precio];
 }
 
 function recorrer(array &$empleados, string $p_tipo_especialidad){
@@ -91,6 +86,35 @@ function recorrer(array &$empleados, string $p_tipo_especialidad){
         }
     }
     return $empleado_lista;
+}
+function mejor_servicio_solicitado(array &$agendamiento_cita){
+
+    $servicios=[];
+
+    foreach($agendamiento_cita as $cita){
+
+        $servicio=$cita["especialidad"];
+
+        if(isset($servicios[$servicio])){
+            $servicios[$servicio]++;
+        }else{
+            $servicios[$servicio]=1;
+        }
+    }
+    $mayor=0;
+    $servicio_mayor="";
+    foreach($servicios as $servicio=>$cantidad){
+        if($cantidad>$mayor){
+            $mayor=$cantidad;
+            $servicio_mayor=$servicio;
+        }
+    }
+    if($servicio_mayor==""){
+        echo "no hay servicios solicitados";
+        return;
+    }
+    echo "\nservicio mas solicitado: ".$servicio_mayor."\n";
+    echo "veces solicitado: ".$mayor."\n";
 }
 
 function ver_citas_por_dia(array &$empleados, array &$clientes,array $agendamiento_cita, string $p_dia){
@@ -132,7 +156,6 @@ function ver_citas_por_dia(array &$empleados, array &$clientes,array $agendamien
         echo "\nno hay citas agendadas para este dia.\n";
     }
 }
-
 while (true){
     $opcion = readline("bienvenido a ADSO SPA\n 1. registrar empleado \n 2. registrar cita \n 3. total facturado por empleado \n 4. servicio más solicitado \n 5. agenda de un día \n 6. deteccion de conflictos \n 7. Liquidacion de comisiones \n 8. Salir \n> ");
     
@@ -178,8 +201,8 @@ while (true){
                         
                         if(!empty($especialidad_elegida)){
                             $empleado_especialidad[]=$especialidad_elegida;
-                            $precio=(int)readline("Ingrese el precio para esta especialidad: $");
-                            $empleado_precio[]=$precio;
+                        
+                            
                         }
                             
                         $mas=readline("¿Desea agregar otra especialidad? (si/no): ");
@@ -194,104 +217,99 @@ while (true){
             break;
             
         case 2:
-            while (true){
-                echo "\nREGISTRO DE CITAS \n";
-                $cliente=readline("Digite el nombre del cliente que desea registrar (x para salir): ");
-                if ($cliente=="x" ){
+          while (true){
+    echo "\nREGISTRO DE CITAS \n";
+
+    $cliente=readline("Digite el nombre del cliente que desea registrar (x para salir): ");
+
+    if ($cliente=="x"){
+        break;
+    } else {
+        $cedula_cliente=readline("Digite la cedula del cliente a registrar: ");
+        $es_empleado=null;
+        $lista_empleado=[];
+
+        while (true){
+            $opcion=readline("\nServicios disponibles \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5.masoterapeuta \n 6.Esteticista corporal \n 7.cosmetóloga \n 8.Salir \n> ");
+
+            switch($opcion){
+                case 1:
+                    $tipo_especialidad="manicurista";
+                    $precio=35000;
+                    $lista_empleado=recorrer($empleados,$tipo_especialidad);
+                    break;
+
+                case 2:
+                    $tipo_especialidad="esteticista(limpiadora facial)";
+                    $precio=80000;
+                    $lista_empleado=recorrer($empleados,$tipo_especialidad);
+                    break;
+
+                case 3:
+                    $tipo_especialidad="pedicurista";
+                    $precio=40000;
+                    $lista_empleado=recorrer($empleados,$tipo_especialidad);
+                    break;
+
+                case 4:
+                    $tipo_especialidad="masajista";
+                    $precio=90000;
+                    $lista_empleado=recorrer($empleados,$tipo_especialidad);
+                    break;
+
+                case 5:
+                    $tipo_especialidad="masoterapeuta";
+                    $precio=100000;
+                    $lista_empleado=recorrer($empleados,$tipo_especialidad);
+                    break;
+
+                case 6:
+                    $tipo_especialidad="Esteticista corporal";
+                    $precio=60000;
+                    $lista_empleado=recorrer($empleados,$tipo_especialidad);
+                    break;
+
+                case 7:
+                    $tipo_especialidad="cosmetóloga";
+                    $precio=120000;
+                    $lista_empleado=recorrer($empleados,$tipo_especialidad);
+                    break;
+
+                case 8:
+                    break 3;
+
+                default:
+                    echo "Opcion invalida\n";
+                    continue;
+            }
+
+            if (!empty($lista_empleado)){
+                $seleccionado_empleado=readline("ingrese el número del empleado a asignar de la lista: ");
+                $conversion=$seleccionado_empleado-1;
+
+                if(isset($lista_empleado[$conversion])){
+                    $es_empleado=$lista_empleado[$conversion];
+
+                    echo "\nempleado seleccionado cédula: ".$es_empleado."\n";
+
                     break;
                 } else {
-                    $cedula_cliente=readline("Digite la cedula del cliente a registrar: ");
-                    $es_empleado = null;
-                    $lista_empleado = [];
-                    
-                    while (true){
-                        $opcion=readline("\nServicios disponibles \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5.masoterapeuta \n 6.Esteticista corporal \n 7.cosmetóloga \n 8.Salir \n> ");
-                        
-                        switch($opcion){
-                            case 1:
-                                $tipo_especialidad="manicurista";
-                                $lista_empleado=recorrer($empleados,$tipo_especialidad);
-                                break;
-                            case 2:
-                                $tipo_especialidad="esteticista(limpiadora facial)";
-                                $lista_empleado=recorrer($empleados,$tipo_especialidad);
-                                break;
-                            case 3:
-                                $tipo_especialidad="pedicurista";
-                                $lista_empleado=recorrer($empleados,$tipo_especialidad);
-                                break;
-                            case 4:
-                                $tipo_especialidad="masajista";
-                                $lista_empleado=recorrer($empleados,$tipo_especialidad);
-                                break;
-                            case 5:
-                                $tipo_especialidad="masoterapeuta";
-                                $lista_empleado=recorrer($empleados,$tipo_especialidad);
-                                break;
-                            case 6:
-                                $tipo_especialidad="Esteticista corporal";
-                                $lista_empleado=recorrer($empleados,$tipo_especialidad);
-                                break;
-                            case 7:
-                                $tipo_especialidad="cosmetóloga";
-                                $lista_empleado=recorrer($empleados,$tipo_especialidad);
-                                break;
-                            case 8:
-                                break 3;
-                            default:
-                                echo "Opcion invalida\n";
-                                continue;
-                        }
-                        
-                        if (!empty($lista_empleado)){
-                            $seleccionado_empleado=readline("ingrese el número del empleado a asignar de la lista: ");
-                            $conversion=$seleccionado_empleado - 1;
-                            
-                            if(isset($lista_empleado[$conversion])){
-                                $es_empleado =$lista_empleado[$conversion];
-                                echo "\nempleado seleccionado cédula: ".$es_empleado."\n";
-                                break;
-                            } else {
-                                echo "ipción inválida\n";
-                            }
-                        } else {
-                            echo "\nno hay empleados asignados a este servicio\n";
-                            break 2;
-                        }
-                    }
-                    
-                    while(true){
-                        $dia=readline("ingrese el dia de la semana en que desea la cita: ");
-                        if (in_array($dia,$semana)){
-                            break;
-                        } elseif ($dia=="domingo"){
-                            echo "Los domingos no trabajamos\n";
-                        } else {
-                            echo "día inexistente\n";
-                        }
-                    }
-                    
-                    while (true){
-                        $hora=readline("ingrese la hora de la cita en formato (HH:MM): ");
-                        if ($hora < "07:00" || $hora > "18:00"){
-                            echo "el spa esta cerrado ah esa hora\n";
-                        } else {
-                            break;
-                        }
-                    }
-                    
-                    agendar_cita($agendamiento_cita, $es_empleado, $cedula_cliente, $tipo_especialidad, $dia, $hora);
-                    echo "cita agendada con éxito:\n";
-                    print_r($agendamiento_cita);
-                    break;
+                    echo "opción inválida\n";
                 }
+
+            } else {
+                echo "\nno hay empleados asignados a este servicio\n";
+                break 2;
             }
-            break;
-            
+          }
+        }
+     }
+      break;       
         case 3:
-            generar_total_empleado($empleados);
+            generar_total_empleado($empleados,$agendamiento_cita);
             break;
-            
+        case 4:
+          mejor_servicio_solicitado($agendamiento_cita)
         case 5:
             while(true){
                 $dia=readline("\ningrese el dia para ver las citas (x para salir): ");
