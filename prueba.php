@@ -46,19 +46,13 @@ function generar_total_empleado(array &$empleados,array &$agendamiento_cita){
     
     foreach($empleados as $empleado){
         $total=0;
+
         foreach($agendamiento_cita as $cita){
-            if(isset($cita["codigo_empleado"]) && is_array($cita["codigo_empleado"])){
-                foreach($cita["codigo_empleado"] as $posicion=>$codigo){
-                    if($empleado["cedula"]==$codigo){
-                        $especialidad=$cita["especialidad"][$posicion];
-                        $posicion_especialidad=array_search($especialidad,$empleado["especialidad"]);
-                        if($posicion_especialidad!==false && isset($empleado["precio"][$posicion_especialidad])){
-                            $total=$total+$empleado["precio"][$posicion_especialidad];
-                        }
-                    }
-                }
+            if($empleado["cedula"]==$cita["codigo_empleado"]){
+                $total=$total+$cita["precio"];
             }
         }
+
         echo "Empleado: ".$empleado["nombre"]." | Total generado: $".$total."\n";
     }
 }
