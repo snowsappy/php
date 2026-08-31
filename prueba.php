@@ -41,7 +41,6 @@ function registrar_datos(array &$empleados, array &$clientes, array &$agendamien
         ["codigo_empleado" => [1007], "codigo_cliente" => 8, "especialidad" => ["esteticista(limpiadora facial)"], "hora" => ["14:00"], "dia" => ["lunes"], "precio" => [80000]]
     ];
 }
-
 function generar_total_empleado(array &$empleados, array &$agendamiento_cita)
 {
     foreach ($empleados as $empleado) {
@@ -58,17 +57,14 @@ function generar_total_empleado(array &$empleados, array &$agendamiento_cita)
         echo "Empleado: " . $empleado["nombre"] . " | Total generado: $" . $total . "\n";
     }
 }
-
 function agregar_empleado(int $p_cedula, array &$empleados, array $p_empleado_especialidad, string $p_nombre, array $p_precios = [])
 {
     $empleados[] = ["cedula" => $p_cedula, "nombre" => $p_nombre, "especialidad" => $p_empleado_especialidad, "precio" => $p_precios];
 }
-
 function agendar_cita(array &$agendamiento_cita, int $p_codigo_empleado, int $p_codigo_cliente, string $p_especialidad, string $p_dia, string $p_hora, int $p_precio)
 {
     $agendamiento_cita[] = ["codigo_empleado" => $p_codigo_empleado, "codigo_cliente" => $p_codigo_cliente, "especialidad" => $p_especialidad, "dia" => $p_dia, "hora" => $p_hora, "precio" => $p_precio];
 }
-
 function recorrer(array &$empleados, string $p_tipo_especialidad)
 {
     echo "Empleados especializados en esta especialidad: \n";
@@ -86,7 +82,6 @@ function recorrer(array &$empleados, string $p_tipo_especialidad)
     }
     return $empleado_lista;
 }
-
 function mejor_servicio_solicitado(array &$agendamiento_cita)
 {
     $servicios = [];
@@ -126,7 +121,6 @@ function ver_citas_por_dia(array &$empleados, array &$clientes, array $agendamie
             foreach ($dias as $posicion => $dia) {
                 if ($dia == $p_dia) {
                     $cont++;
-
                     $nombre_cliente = "";
                     foreach ($clientes as $cliente) {
                         if ($cliente["codigo"] == $cita["codigo_cliente"]) {
@@ -137,14 +131,12 @@ function ver_citas_por_dia(array &$empleados, array &$clientes, array $agendamie
                     $nombre_empleado = "";
                     $empleados_cita = is_array($cita["codigo_empleado"]) ? $cita["codigo_empleado"] : [$cita["codigo_empleado"]];
                     $cedula_emp = $empleados_cita[$posicion] ?? $empleados_cita[0];
-
                     foreach ($empleados as $empleado) {
                         if ($empleado["cedula"] == $cedula_emp) {
                             $nombre_empleado = $empleado["nombre"];
                             break;
                         }
                     }
-
                     $especialidades_cita = is_array($cita["especialidad"]) ? $cita["especialidad"] : [$cita["especialidad"]];
                     $esp = $especialidades_cita[$posicion] ?? $especialidades_cita[0];
 
@@ -163,9 +155,70 @@ function ver_citas_por_dia(array &$empleados, array &$clientes, array $agendamie
         echo "\nno hay citas agendadas para este dia.\n";
     }
 }
+function generar_comisiones(array &$empleados, array &$agendamiento_cita)
+{
+    $mayor_facturacion = 0;
+    $empleado_mayor = "";
+    foreach ($empleados as $empleado) {
+        $total = 0;
+        foreach ($agendamiento_cita as $cita) {
 
+            $empleados_cita = is_array($cita["codigo_empleado"])
+                ? $cita["codigo_empleado"]
+                : [$cita["codigo_empleado"]];
+
+            foreach ($empleados_cita as $posicion => $codigo) {
+
+                if ($empleado["cedula"] == $codigo) {
+                    $total += $cita["precio"][$posicion];
+                }
+            }
+        }
+        if ($total > $mayor_facturacion) {
+            $mayor_facturacion = $total;
+            $empleado_mayor = $empleado["nombre"];
+        }
+    }
+    foreach ($empleados as $empleado) {
+        $total = 0;
+        $cantidad_citas = 0;
+        foreach ($agendamiento_cita as $cita) {
+            $empleados_cita = is_array($cita["codigo_empleado"])
+                ? $cita["codigo_empleado"]
+                : [$cita["codigo_empleado"]];
+
+            foreach ($empleados_cita as $posicion => $codigo) {
+
+                if ($empleado["cedula"] == $codigo) {
+
+                    $total += $cita["precio"][$posicion];
+                    $cantidad_citas++;
+                }
+            }
+        }
+        if ($cantidad_citas >= 6) {
+            $porcentaje = 0.12;
+        } else {
+            $porcentaje = 0.08;
+        }
+        $comision = $total * $porcentaje;
+        $bono = 0;
+        if ($empleado["nombre"] == $empleado_mayor) {
+            $bono = 50000;
+        }
+        $total_recibir = $comision + $bono;
+        echo "\nEmpleado: " . $empleado["nombre"] . "\n";
+        echo "Citas atendidas: " . $cantidad_citas . "\n";
+        echo "Total facturado: $" . $total . "\n";
+        echo "Comision: $" . $comision . "\n";
+        echo "Bono: $" . $bono . "\n";
+        echo "Total a recibir: $" . $total_recibir . "\n";
+    }
+    echo "\nEmpleado con mayor facturacion: " . $empleado_mayor . "\n";
+    echo "Facturacion mayor: $" . $mayor_facturacion . "\n";
+}
 while (true) {
-    $opcion = trim(readline("bienvenido al sistema ADSO SPA\n dp. cargar datos de prueba \n 1. registrar empleado \n 2. registrar cita \n 3. total facturado por empleado \n 4. servicio más solicitado \n 5. agenda de un día \n 8. Salir \n> "));
+    $opcion = trim(readline("bienvenido al sistema ADSO SPA \n 1. registrar empleado \n 2. registrar cita \n 3. total facturado por empleado \n 4. servicio más solicitado \n 5. agenda de un día \n 6. Detección de conflictos \n 7. Liquidación de comisiones \n 8. Salir \n> "));
     if (empty($opcion)) {
         echo " \n por favor ingrese algo";
         continue;
@@ -371,7 +424,10 @@ while (true) {
                 }
             }
             break;
-
+        case 6:
+        case 7:
+            generar_comisiones($empleados, $agendamiento_cita);
+            break;
         case 8:
             echo "Saliendo del sistema...\n";
             exit;
