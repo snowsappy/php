@@ -243,18 +243,19 @@ while (true){
           while (true){
     echo "\nREGISTRO DE CITAS \n";
 
-    $cliente=readline("Digite el nombre del cliente que desea registrar (x para salir): ");
-
+    $cliente=trim(readline("Digite el nombre del cliente que desea registrar (x para salir): "));
+    if(empty($cliente)){ echo "no puede dejar datos vacíos " ; continue; }
     if ($cliente=="x"){
         break;
     } else {
-        $cedula_cliente=readline("Digite la cedula del cliente a registrar: ");
+        $cedula_cliente=trim(readline("Digite la cedula del cliente a registrar: "));
+        if(empty($cedula_cliente)){ echo "no puede dejar datos vacíos " ; continue; }
         $es_empleado=null;
         $lista_empleado=[];
 
         while (true){
-            $opcion=readline("\nServicios disponibles \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5.masoterapeuta \n 6.Esteticista corporal \n 7.cosmetóloga \n 8.Salir \n> ");
-
+            $opcion=trim(readline("\nServicios disponibles \n 1.manicurista \n 2.esteticista(limpiadora facial) \n 3.pedicurista \n 4.masajista \n 5.masoterapeuta \n 6.Esteticista corporal \n 7.cosmetóloga \n 8.Salir \n> "));
+            if(empty($opcion)){ echo "no puede dejar datos vacíos " ; continue; }
             switch($opcion){
                 case 1:
                     $tipo_especialidad="manicurista";
@@ -307,7 +308,9 @@ while (true){
             }
 
             if (!empty($lista_empleado)){
-                $seleccionado_empleado=readline("ingrese el número del empleado a asignar de la lista: ");
+                while(true){
+                      $seleccionado_empleado=trim(readline("ingrese el número del empleado a asignar de la lista: "));
+                      if(empty($seleccionado_empleado)){ echo "no puede dejar datos vacíos " ; continue; }else {break;}
                 $conversion=$seleccionado_empleado-1;
 
                 if(isset($lista_empleado[$conversion])){
